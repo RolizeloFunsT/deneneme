@@ -1,0 +1,74 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- include('../blocks/header', {bot, user, path}) %>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<h2 style="color:#fff;">Premium Ayarlar</h2>
+	</div>
+  
+  
+  
+	<div class="row">
+      <div class="col-sm-4">
+			<%- include('../blocks/guild-card', {guild}) %>
+    </div>
+			
+    <div class="col">
+			<form method="post">
+				<ul class="list-group">
+					<li class="list-group-item">
+              <div class="form-group">
+             <label>Bot Otorol</label>
+                            <select class="form-control" id="botgirisRol" name="girisRol"> 
+                                <%if(bot.provider.get(guild.id, 'botgirisRolK') !== true ) {%>
+                                <option value="" disabled selected>Rol seçiniz.</option>
+                                <%
+                                for (var i = 0; i < guild.roles.filter(r=> r.name!=='@everyone').size; i++){%>
+                                
+                                <option value="<%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].name%>" style="color:<%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].hexColor%>"><%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'botgirisRolK') === true ) {%>
+                                <option value="<%=guild.roles.get(bot.provider.get(guild.id, 'botgirisRol', [])).name%>" selected>@<%=guild.roles.get(bot.provider.get(guild.id, 'girisRol', [])).name%></option>
+                                <%for (var i = 0; i < guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'botgirisRol', [])).filter(c => c.name!=='@everyone').size; i++){%>
+                                
+                                <option value="<%=guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'botgirisRol', [])).filter(c => c.name!=='@everyone').array()[i].name%>">@<%=guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'botgirisRol', [])).filter(c => c.name!=='@everyone').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+                            </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+        <div class="custom-control custom-switch">
+              <%if(bot.provider.get(guild.id, 'sunucuPanel') !== true ) {%>
+    <input type="checkbox" class="custom-control-input" name="sunucupanel" id="sunucupanel">
+  <label class="custom-control-label" for="sunucupanel">Sunucu Panel</label>
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'sunucuPanel') === true ) {%>
+   <input type="checkbox" class="custom-control-input" name="sunucupanel" id="sunucupanel" checked="checked">
+  <label class="custom-control-label" for="sunucupanel">Sunucu Panel</label>
+        
+         <%}%>
+          </div>
+          </li>
+          
+				</ul>
+
+          
+				<div style="width: 100%; text-align: right; margin-top: 20px;" >
+          <a class="btn btn-success" href="/panel/<%= guild.id %>/" role="button">Geri Dön</a>
+					<a class="btn btn-danger" data-toggle="modal" data-target="#settingsResetModal" role="button" style="color: #ffffff;">Ayarları Sıfırla<i aria-hidden="true"></i></a>
+					<button type="submit" class="btn btn-primary">Değişiklikleri Kaydet<i aria-hidden="true"></i></button>
+				</div>
+			</form>
+       </div> 
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var ts = parseInt($('#guildCreate').text());
+	$('#guildCreate').html(`<strong>Created:</strong>: ${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+</script>
+<%- include('../blocks/footer') %>

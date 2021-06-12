@@ -1,0 +1,117 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- include('../blocks/header', {bot, user, path}) %>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<h2 style="color:#fff;">Sayaç Ayarları</h2>
+	</div>
+  
+  
+  
+	<div class="row">
+      <div class="col-sm-4">
+			<%- include('../blocks/guild-card', {guild}) %>
+    </div>
+			
+    <div class="col">
+			<form method="post">
+
+				<ul class="list-group">
+ <li class="list-group-item">
+          <div class="form-group">
+            <p>
+          Sayaç ayarı için bir kanal ve sayaç sayısını girin.
+        </p>
+              <label>Sayaç Kanalı</label>
+              <select class="form-control" name="sayaçkanal" id="sayaçkanal"> 
+                                <%if(bot.provider.get(guild.id, 'sayaçkanalK') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'sayaçkanalK') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'sayaçkanal', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'sayaçkanal', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'sayaçkanal', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'sayaçkanal', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'sayaçkanal', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          
+          					<li class="list-group-item">
+            
+						<div class="form-group">
+              <label>Sayaç İçin Bir Sayı Girin</label>
+               <%if(bot.provider.get(guild.id, 'sayacK') !== true) {%>
+              <input type="number" name="sayac" id="sayac " class="form-control" aria-describedby="emailHelp" value="" required="required">
+              <%}%>
+              <%if(bot.provider.get(guild.id, 'sayacK') === true ) {%>
+              <input type="number" name="sayac" id="sayac " class="form-control" aria-describedby="emailHelp" value="<%= bot.provider.get(guild.id, 'sayac', [])%>" required="required">
+              <%}%>
+          </div>
+          </li>
+
+				</ul>
+
+        <div class="modal fade" id="serverLeaveModals" tabindex="-1" role="dialog" aria-labelledby="serverLeaveModalLabels" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="background-color: grey; color: #ffffff;">
+			<div class="modal-header" style="border: 0px;">
+				<h5 class="modal-title" id="serverLeaveModalLabels" style="background-color: grey; color: #ffffff;">Emin misin?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="background-color: #fff; color: #000;">
+				<p>
+					Gerçekten <%= bot.user.username %> botunu sunucundan atmak istiyor musun?
+				</p>
+			</div>
+			<div class="modal-footer" style="background-color: #ffffff; color: #000; border: 0px;">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">İptal</button>
+				<a class="btn btn-outline-danger" href="/panel/<%= guild.id %>/leave" role="button">Evet At</a>
+			</div>
+		</div>
+	</div>
+</div>
+        
+        <div class="modal fade" id="sayacResetModals" tabindex="-1" role="dialog" aria-labelledby="sayacResetModalLabels" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="background-color: grey; color: #ffffff;">
+			<div class="modal-header" style="border: 0px;">
+				<h5 class="modal-title" id="sayacResetModalLabels">Emin misin?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="background-color: #fff; color: #000;">
+				<p>
+					Sunucu ayarlarını sıfırlayım mı?
+				</p>
+			</div>
+			<div class="modal-footer" style="background-color: #ffffff; color: #000; border: 0px;">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hayır Sıfırlama</button>
+				<a class="btn btn-outline-danger" href="/panel/<%= guild.id %>/sayacreset" role="button">Evet Sıfırla</a>
+			</div>
+		</div>
+	</div>
+</div>
+          
+				<div style="width: 100%; text-align: right; margin-top: 20px;" >
+          <a class="btn btn-success" href="/panel/<%= guild.id %>/" role="button">Geri Dön</a>
+					<a class="btn btn-danger" data-toggle="modal" data-target="#sayacResetModals" role="button" style="color: #ffffff;">Ayarları Sıfırla<i aria-hidden="true"></i></a>
+					<button type="submit" class="btn btn-primary">Değişiklikleri Kaydet<i aria-hidden="true"></i></button>
+				</div>
+			</form>
+       </div> 
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var ts = parseInt($('#guildCreate').text());
+	$('#guildCreate').html(`<strong>Created:</strong>: ${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+</script>
+<%- include('../blocks/footer') %>

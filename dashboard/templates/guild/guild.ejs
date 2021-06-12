@@ -1,0 +1,21 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- include('../blocks/header', {bot, user, path}) %>
+
+
+<div class="list-group">
+  <a href="/panel/<%= guild.id %>/ayarlar" class="list-group-item list-group-item-action active">Genel Ayarlar</a>
+  <a href="/panel/<%= guild.id %>/sayac" class="list-group-item list-group-item-action">Sayaç Ayarları</a>
+  <a href="/panel/<%= guild.id %>/girismesaj"class="list-group-item list-group-item-action">Giriş Mesaj Ayarları</a>
+  <a href="/panel/<%= guild.id %>/cikismesaj" class="list-group-item list-group-item-action">Çıkış Mesaj Ayarları</a>
+  <a href="/panel/<%= guild.id %>/ozelkomut"class="list-group-item list-group-item-action">Özel Komut Ekle</a>
+  <a href="/panel/<%= guild.id %>/ozeltag"class="list-group-item list-group-item-action">Özel Tag</a>
+  <% let preAktif = bot.provider.get(guild.id, 'preAktif', []) 
+   if(preAktif === true) { %>
+  <a href="/panel/<%= guild.id %>/premiumayarlar"class="list-group-item list-group-item-action">Premium Ayarları</a>
+  <% } %>
+</div>
+
+
+
+
+<%- include('../blocks/footer') %>

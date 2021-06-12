@@ -1,0 +1,297 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- include('../blocks/header', {bot, user, path}) %>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<h2 style="color:#fff;">Genel Ayarlar</h2>
+	</div>
+  
+  
+  
+	<div class="row">
+      <div class="col-sm-4">
+			<%- include('../blocks/guild-card', {guild}) %>
+    </div>
+			
+    <div class="col">
+			<form method="post">
+				<ul class="list-group">
+					<li class="list-group-item">
+            
+						<div class="form-group">
+              <label>Sunucu Prefix</label>
+              <input type="text" name="prefix" id="prefix " class="form-control" aria-describedby="emailHelp" value="<%= `${guild.commandPrefix}`%>">
+              
+          </div>
+          </li>
+          <li class="list-group-item">
+          <div class="form-group">
+              <label>Hoş Geldin Kanalı</label>
+              <select class="form-control" id="hosGeldin" name="hosGeldin"> 
+                                <%if(bot.provider.get(guild.id, 'hosGeldinK') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'hosGeldinK') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'hosGeldin', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'hosGeldin', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'hosGeldin', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'hosGeldin', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'hosGeldin', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+             <div class="form-group">
+              <label>Log Kanalı</label>
+              <select class="form-control" id="logsChannel" name="logsChannel"> 
+                                <%if(bot.provider.get(guild.id, 'logsEnable') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'logsEnable') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'logsChannel', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'logsChannel', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'logsChannel', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'logsChannel', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'logsChannel', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+        <div class="form-group">
+             <label>Mod Log Kanalı</label>
+              <select class="form-control" id="modLog" name="modLog"> 
+                                <%if(bot.provider.get(guild.id, 'modLogK') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'modLogK') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'modLog', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'modLog', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'modLog', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'modLog', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'modLog', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+               <div class="form-group">
+             <label>Davet Takip Kanalı</label>
+                           <select class="form-control" id="davetKanal" name="davetKanal"> 
+                                <%if(bot.provider.get(guild.id, 'davetKanalK') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'davetKanalK') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'davetKanal', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'davetKanal', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'davetKanal', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'davetKanal', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'davetKanal', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+                      <div class="form-group">
+              <label>Duyuru Kanalı</label>
+              <select class="form-control" id="duyurukanal" name="duyurukanal"> 
+                                <%if(bot.provider.get(guild.id, 'duyurukanalK') !== true) {%>
+                                <option value="" disabled selected>Kanal seçiniz.</option>
+                                <%for (var i = 0; i < guild.channels.filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'duyurukanalK') === true ) {%>
+                                <option value="<%=guild.channels.get(bot.provider.get(guild.id, 'duyurukanal', [])).name%>" selected>#<%=guild.channels.get(bot.provider.get(guild.id, 'duyurukanal', [])).name%></option>
+                                <%for (var i = 0; i < guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'duyurukanal', [])).filter(c => c.type==='text').size; i++){%>
+                                
+                                <option value="<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'duyurukanal', [])).filter(c => c.type==='text').array()[i].name%>">#<%=guild.channels.filter(c=>c.id!==bot.provider.get(guild.id, 'duyurukanal', [])).filter(c => c.type==='text').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+              </select>
+                        </div>
+          </li>
+          </li>
+          
+          <li class="list-group-item">
+              <div class="form-group">
+             <label>Otorol</label>
+                            <select class="form-control" id="girisRol" name="girisRol"> 
+                                <%if(bot.provider.get(guild.id, 'girisRolK') !== true ) {%>
+                                <option value="" disabled selected>Rol seçiniz</option>
+                                <%
+                                for (var i = 0; i < guild.roles.filter(r=> r.name!=='@everyone').size; i++){%>
+                                
+                                <option value="<%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].name%>"style="color:<%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].hexColor%>"><%=guild.roles.filter(r=> r.name!=='@everyone').array()[i].name%></option>
+                                <%  } %>
+                                <%}%> <%if(bot.provider.get(guild.id, 'girisRolK') === true ) {%>
+                                <option value="<%=guild.roles.get(bot.provider.get(guild.id, 'girisRol', [])).name%>" selected>@<%=guild.roles.get(bot.provider.get(guild.id, 'girisRol', [])).name%></option>
+                                <%for (var i = 0; i < guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'girisRol', [])).filter(c => c.name!=='@everyone').size; i++){%>
+                                
+                                <option value="<%=guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'girisRol', [])).filter(c => c.name!=='@everyone').array()[i].name%>">@<%=guild.roles.filter(c=>c.id!==bot.provider.get(guild.id, 'girisRol', [])).filter(c => c.name!=='@everyone').array()[i].name%></option>
+                                <%  } %>
+                                <%}%>
+                            </select>
+                        </div>
+          </li>
+          
+          <li class="list-group-item">
+        <div class="custom-control custom-switch">
+              <%if(bot.provider.get(guild.id, 'saas') !== true ) {%>
+    <input type="checkbox" class="custom-control-input" name="saas" id="saas">
+  <label class="custom-control-label" for="saas">SA-AS</label>
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'saas') === true ) {%>
+   <input type="checkbox" class="custom-control-input" name="saas" id="saas" checked="checked">
+  <label class="custom-control-label" for="saas">SA-AS</label>
+        
+         <%}%>
+          </div>
+          </li>
+          
+          <li class="list-group-item">
+           <div class="custom-control custom-switch">
+        <%if(bot.provider.get(guild.id, 'küfürEngelle') !== true ) {%>
+        <input type="checkbox" class="custom-control-input" name="küfürEngelle" id="küfürEngelle">
+  <label class="custom-control-label" for="küfürEngelle">Küfür Engelle</label>
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'küfürEngelle') === true ) {%>
+      <input type="checkbox" class="custom-control-input" name="küfürEngelle" id="küfürEngelle" checked="checked">
+  <label class="custom-control-label" for="küfürEngelle">Küfür Engelle</label>
+        
+         <%}%>
+          </div>
+          </li>
+          
+          <li class="list-group-item">
+         <div class="custom-control custom-switch">
+        <%if(bot.provider.get(guild.id, 'linkEngel') !== true ) {%>
+       <input type="checkbox" class="custom-control-input" name="linkEngel" id="linkEngel">
+     <label class="custom-control-label" for="linkEngel">Link Engelle</label>
+  
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'linkEngel') === true ) {%>
+         <input type="checkbox" class="custom-control-input" name="linkEngel" id="linkEngel" checked="checked">
+  <label class="custom-control-label" for="linkEngel">Link Engelle</label>
+        
+         <%}%>
+          </div>
+          </li>
+          
+          <li class="list-group-item">
+        <div class="custom-control custom-switch">
+        <%if(bot.provider.get(guild.id, 'reklamEngel') !== true ) {%>
+       <input type="checkbox" class="custom-control-input" name="reklamEngel" id="reklamEngel">
+     <label class="custom-control-label" for="reklamEngel">Reklam Engelle</label>
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'reklamEngel') === true ) {%>
+             <input type="checkbox" class="custom-control-input" name="reklamEngel" id="reklamEngel" checked="checked">
+  <label class="custom-control-label" for="reklamEngel">Reklam Engelle</label>
+        
+         <%}%>
+          </div>
+          </li>
+          
+          <li class="list-group-item">
+       <div class="custom-control custom-switch">
+        <%if(bot.provider.get(guild.id, 'mentionEngel') !== true ) {%>
+        <input type="checkbox" class="custom-control-input" name="mentionEngel" id="mentionEngel">
+     <label class="custom-control-label" for="mentionEngel">Mention Engelle</label>
+  
+        
+        <%}%>
+        <%if(bot.provider.get(guild.id, 'mentionEngel') === true ) {%>
+            <input type="checkbox" class="custom-control-input" name="mentionEngel" id="mentionEngel" checked="checked">
+  <label class="custom-control-label" for="mentionEngel">Mention Engelle</label>
+        
+         <%}%>
+          </div>
+          </li>
+                 
+          
+         
+				</ul>
+
+      <div class="modal fade" id="serverLeaveModals" tabindex="-1" role="dialog" aria-labelledby="serverLeaveModalLabels" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="background-color: grey; color: #ffffff;">
+			<div class="modal-header" style="border: 0px;">
+				<h5 class="modal-title" id="serverLeaveModalLabels" style="background-color: grey; color: #ffffff;">Emin misin?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="background-color: #fff; color: #000;">
+				<p>
+					Gerçekten <%= bot.user.username %> botunu sunucundan atmak istiyor musun?
+				</p>
+			</div>
+			<div class="modal-footer" style="background-color: #ffffff; color: #000; border: 0px;">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">İptal</button>
+				<a class="btn btn-outline-danger" href="/panel/<%= guild.id %>/leave" role="button">Evet At</a>
+			</div>
+		</div>
+	</div>
+</div>
+      
+      <div class="modal fade" id="settingsResetModal" tabindex="-1" role="dialog" aria-labelledby="settingsResetModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="settingsResetModalLabel">Emin misin?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>
+					Sunucu ayarlarını sıfırlayım mı?
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hayır Sıfırlama</button>
+				<a class="btn btn-outline-danger" href="/panel/<%= guild.id %>/reset" role="button">Evet Sıfırla</a>
+			</div>
+		</div>
+	</div>
+</div>
+				<div style="width: 100%; text-align: right; margin-top: 20px;" >
+          <a class="btn btn-success" href="/panel/<%= guild.id %>/" role="button">Geri Dön</a>
+					<a class="btn btn-danger" data-toggle="modal" data-target="#settingsResetModal" role="button" style="color: #ffffff;">Ayarları Sıfırla<i aria-hidden="true"></i></a>
+					<button type="submit" class="btn btn-primary">Değişiklikleri Kaydet<i aria-hidden="true"></i></button>
+				</div>
+			</form>
+       </div> 
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var ts = parseInt($('#guildCreate').text());
+	$('#guildCreate').html(`<strong>Created:</strong>: ${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+</script>
+<%- include('../blocks/footer') %>

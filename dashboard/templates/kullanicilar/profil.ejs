@@ -1,0 +1,20 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<%- include('../blocks/header', {bot, user, path}) %>
+
+<h3 style="text-align:center;color:#fff">Profilini Düzenle</h3>
+
+<div class="card" style="width: 18rem;">
+  <img alt="<%= user.username %>" class="card-img-top" src="https://cdn.discordapp.com/avatars/<%=user.id%>/<%=user.avatar%>.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"><%= user.username %></h5>
+    <p class="card-text">Profilini burdan düzenleye bilirsin</p>
+    <a href="/kullanicilar/<%= user.id %>/seviyekartiniayarla" class="btn btn-primary">Seviye Kartını Ayarla</a>
+  </div>
+</div>
+
+
+
+</div>
+
+<%- include('../blocks/footer') %>

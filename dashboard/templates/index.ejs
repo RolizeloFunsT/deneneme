@@ -1,0 +1,58 @@
+<%- include('blocks/header', {bot, user, path}) %>
+<div class="container">
+
+
+  <% if(user) { %>
+  <div class="btn-group" role="group" aria-label="Basic example">
+ <a class="btn btn-secondary" href="/panel" role="button">Yönetim Paneli</a>
+  <% if(bot.ayarlars.sahip.includes(user.id)) { %>
+    <a class="btn btn-secondary" href="/admin" role="button">Admin Paneli</a>
+    <% } %>
+      <a class="btn btn-secondary" href="/kullanicilar/<%= user.id %>/profil" role="button">Profil</a>  
+    <a class="btn btn-secondary" href="/cikis" role="button">Çıkış Yap</a>
+      </div>
+  <br><br>
+    <div class="card text-white bg-dark mb-3">
+  <div class="card-header"><%=bot.user.username %> - Panel</div>
+  <div class="card-body">
+    <p class="card-text">Paneline hoşgeldin burdan sunucu ayarlarını kolaylıka yapabilirsin.</p>
+  </div>
+</div>
+  <div class="card text-white bg-success mb-3">
+  <div class="card-header"><%=bot.user.username %> - Kullanıcı Ayarları</div>
+  <div class="card-body">
+    <p class="card-text">Panel üzerinden seviye kartınızı ayarlaya bilirisiniz.</p>
+  </div>
+</div>
+<div class="card text-white bg-info mb-3">
+  <div class="card-header"><%=bot.user.username %> - Premium Komutlar</div>
+  <div class="card-body">
+    <p class="card-text">Premium komutlar ile sunucunuzu diğer sunuculardan eşsiz kıla bilirsiniz.</p>
+  </div>
+</div>
+
+  <% } else {%>
+  <a class="btn btn-secondary" href="/giris" role="button">Giriş Yap</a>
+  <br><br>
+    <div class="card text-white bg-dark mb-3">
+  <div class="card-header"><%=bot.user.username %> - Panel</div>
+  <div class="card-body">
+    <p class="card-text">Paneline hoşgeldin burdan sunucu ayarlarını kolaylıka yapabilirsin.</p>
+  </div>
+</div>
+  <div class="card text-white bg-success mb-3">
+  <div class="card-header"><%=bot.user.username %> - Kullanıcı Ayarları</div>
+  <div class="card-body">
+    <p class="card-text">Panel üzerinden seviye kartınızı ayarlaya bilirisiniz.</p>
+  </div>
+</div>
+<div class="card text-white bg-info mb-3">
+  <div class="card-header"><%=bot.user.username %> - Premium Komutlar</div>
+  <div class="card-body">
+    <p class="card-text">Premium komutlar ile sunucunuzu diğer sunuculardan eşsiz kıla bilirsiniz.</p>
+  </div>
+</div>
+<%}%>
+</div>
+
+<%- include('./blocks/footer') %>

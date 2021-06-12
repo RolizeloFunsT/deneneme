@@ -1,0 +1,55 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<%- include('blocks/header', {bot, user, path}) %>
+
+<h3 style="text-align:center;">Yönetim Paneli</h3>
+
+<div class="jumbotron">
+ <div class="row">
+   <% user.guilds.forEach(guild => { 
+			const permsOnGuild = new perms(guild.permissions);
+			if(!permsOnGuild.has("MANAGE_GUILD")) return;
+		%>
+  <div class="col-sm-6" style="margin-bottom: 5px;">
+    <div class="card">
+      <div class="card-body">
+        <% if (guild.icon) { %>
+        <img src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` %>" width="100px" height="100px" style="margin: -20px -20px 8px;border-radius: 2px 0 0px 2px;" class="mr-3" alt="Sunucu Resmi">
+        <% } else { %>
+							<canvas style="background-color: #7289da;margin: -20px -20px 8px;border-radius: 2px 0 0px 2px;" width="100px" height="100px" class="mr-3" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>"></canvas>
+							<script>
+								function draw() {
+									const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+									ctx.font = '30px Arial';
+									ctx.textAlign = "center";
+									ctx.fillStyle = "white";
+									ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 40, 50);
+								};
+								draw();
+							</script>
+						<% } %>
+        <h5 class="card-title"><%= guild.name %></h5>
+         <% 
+					let href, text;
+					let enabled;
+					if(bot.guilds.get(guild.id)) {
+						href = `/panel/${guild.id}`;
+						text = "Yönet";
+						enabled = true;
+					} else {
+						href = `https://discordapp.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=2146958847`;
+						text = "Sunucuna Ekle";
+						enabled = bot.appInfo.botPublic;
+					}
+					%> 
+    <a class="btn btn-primary <% if(!enabled) { %> disabled<% } %>" role="button" href="<%= href %>"><%= text %> </a>
+      </div>
+    </div>
+  </div>
+   <% }) %>
+  </div>
+  
+  
+</div>
+
+<%- include('./blocks/footer') %>

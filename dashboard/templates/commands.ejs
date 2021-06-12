@@ -1,0 +1,49 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<%- include('blocks/header', {bot, user, path}) %>
+<% const help = {};
+bot.commands.forEach((command) => {
+  const cat = command.conf.kategori;
+  if (!help.hasOwnProperty(cat)) help[cat] = [];
+  help[cat].push(command);
+});
+%>
+<div class="container">
+  <div class="row justify-content-md-center">
+		
+	<% for (const category in help) { %>
+		<br>
+		<div class="row justify-content-md-center">
+        <% var k = category  %>
+			<h3 style="color: #ffffff;"><%= k.charAt(0).toUpperCase() + k.slice(1) %></h3>
+		</div>
+		<br>
+		<div class="card-columns">
+			<% for (const command of help[category]) { %>
+				<div class="card">
+          <h3 class="card-header" align="left"><a style="color:cyan" href="#" data-toggle="modal" data-target="#<%= `${command.help.komut}` %>Modal"><%= command.help.komut %></a></h3>
+          <div class="card-block" align="right">
+            <p class="card-text" align="center"><%= command.help.aciklama %></p>
+           <h6 class="card-subtitle text-muted" align="right"><center>Gerekli Yetki: <%= command.conf.permLevel.toString().replace('0', 'Yetki gerekmiyor').replace('1', 'Üyeleri Yasakla').replace('3', 'Yönetici').replace('4', 'Bot Sahibi') %></center><br /></h6>
+          </div>
+      </div>
+        <div id="<%= `${command.help.komut}` %>Modal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header btn-info disabled">
+								<h4 class="modal-title" style="color:ffff"><%= command.help.komut %></h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+              <div class="modal-body">
+                  <p><b>Örnek Kullanım:</b> <%= command.help.kullanim %></p>
+                  <p><b>Gerekli Yetki:</b> <%= command.conf.permLevel.toString().replace('0', 'Yetki gerekmiyor').replace('1', 'Üyeleri Yasakla').replace('3', 'Yönetici').replace('4', 'Bot Sahibi') %></p>
+                  <p><b>Komutun Diğer Adları:</b> <%= `${command.conf.aliases.join(', ') || 'Bulunmuyor'}` %></p>
+              </div>
+              <div class="modal-footer"><button type="button" class="btn btn-outline-danger" data-dismiss="modal">Kapat</button></div>
+						</div>
+          </div>
+      </div>
+      <% } %>
+    </div>
+  <% } %>
+<%- include('./blocks/footer') %>
